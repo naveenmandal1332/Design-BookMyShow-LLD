@@ -8,9 +8,9 @@ public class TheatreController {
   Map<City, List<Theatre>> cityWiseTheatre;
   List<Theatre> totalTheatres;
 
-  public TheatreController() {
-    this.cityWiseTheatre = new HashMap<>();
-    this.totalTheatres = new ArrayList<>();
+  TheatreController() {
+    cityWiseTheatre = new HashMap<>();
+    totalTheatres = new ArrayList<>();
   }
 
   public void addTheatres(City city, Theatre theatre) {
@@ -27,24 +27,24 @@ public class TheatreController {
 
   }
 
-  public Map<Theatre, List<Show>> getAllShow(Movie movieName, City city) {
+  public Map<Theatre, List<Show>> getAllShow(Movie movie, City city) {
 
-    List<Theatre> totalTheatreInCity = cityWiseTheatre.get(city);
     Map<Theatre, List<Show>> totalShowInCity = new HashMap<>();
+    List<Theatre> totalTheatreInCity = cityWiseTheatre.get(city);
 
-    for (int ind = 0; ind < totalTheatreInCity.size(); ind++) {
-      Theatre theatre = totalTheatreInCity.get(ind);
+    for (Theatre theatre : totalTheatreInCity) {
 
       List<Show> theatreVsShow = new ArrayList<>();
       List<Show> show = theatre.getShows();
 
       for (Show currShow : show) {
-        if (currShow.getMovie().getMovieId() == movieName.getMovieId()) {
+        if (currShow.movie.getMovieId() == movie.getMovieId()) {
           theatreVsShow.add(currShow);
         }
       }
 
-      totalShowInCity.put(theatre, theatreVsShow);
+      if (!theatreVsShow.isEmpty())
+        totalShowInCity.put(theatre, theatreVsShow);
     }
 
     return totalShowInCity;

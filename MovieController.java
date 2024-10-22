@@ -9,22 +9,18 @@ public class MovieController {
   List<Movie> totalMovie;
 
   MovieController() {
-    this.totalMovieInCity = new HashMap<>();
-    this.totalMovie = new ArrayList<>();
+    totalMovieInCity = new HashMap<>();
+    totalMovie = new ArrayList<>();
   }
 
-  public void addMovie(City city, Movie movie) {
+  void addMovie(City city, Movie movie) {
     totalMovie.add(movie);
-
-    List<Movie> movieInCity = new ArrayList<>();
-    if (totalMovieInCity.containsKey(city)) {
-      movieInCity = totalMovieInCity.get(city);
-    }
-
-    totalMovieInCity.put(city, movieInCity);
+    List<Movie> movies = totalMovieInCity.getOrDefault(city, new ArrayList<>());
+    movies.add(movie);
+    totalMovieInCity.put(city, movies);
   }
 
-  public Movie getMovieByName(String movieName) {
+  Movie getMovieByName(String movieName) {
 
     for (Movie currMovie : totalMovie) {
       if (currMovie.getMovieName().equals(movieName)) {
@@ -35,7 +31,9 @@ public class MovieController {
     return null;
   }
 
-  public List<Movie> getMovieByCity(City city) {
+  List<Movie> getMovieByCity(City city) {
+    List<Movie> movie = totalMovieInCity.get(city);
+    System.out.println(city + " " + movie.size());
     return totalMovieInCity.get(city);
   }
 }
